@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--包名 实现类的 全路径
+id是方法名
+parameterType 定义参数类型
+resultType: 返回值类型
+如果方法返回值是list ,
+反射机制 读取 xml
+-->
+<mapper namespace="a.b">
+    <select id="byPage" resultType="ssm.pojo.People" parameterType="map">
+        select *from people limit #{pageStart},#{pageSize}
+    </select>
+    <select id="selCount" resultType="long" statementType="STATEMENT" >
+        select count(*) from people
+    </select>
+
+    <select id="selAll" resultType="java.util.Map">
+        select *from flower
+    </select>
+    <select id="selPeople" resultType="ssm.pojo.People">
+        select *from people
+    </select>
+
+    <select id="selById" resultType="ssm.pojo.People" parameterType="int">
+        select *from people where id=#{0}
+    </select>
+
+    <select id="page" resultType="ssm.pojo.People" parameterType="map">
+        select *from people limit #{pageSize}, #{pageStart}
+    </select>
+    <insert id="ins" parameterType="ssm.pojo.People">
+        insert into people values (default ,#{name},#{age})
+    </insert>
+    
+</mapper>
