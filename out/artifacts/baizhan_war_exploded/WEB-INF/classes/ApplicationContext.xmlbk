@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+    <!--数据源封装类  spring-jdbc.jar中
+       <dataSource type="POOLED">
+            <property name="driver" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://192.168.1.126:3306/ssm"/>
+            <property name="username" value="root"/>
+            <property name="password" value="12Qw23:q"/>
+        </dataSource> 声明事务-->
+
+    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:mysql://192.168.1.126:3306/ssm"/>
+        <property name="username" value="root"/>
+        <property name="password" value="12Qw23:q"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    </bean>
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+    <!--扫描器 mybatis.xml 中 mapper 标签-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="ssm.mapper.test"/>
+        <property name="sqlSessionFactory" ref="factory"/>
+    </bean>
+
+    <!-- airportService -->
+    <bean id="airportService" class="ssm.service.impl.AirportServiceImpl">
+        <property name="airportMapper" ref="airportMapper"/>
+    </bean>
+
+
+    <bean id="people" class="ssm.pojo.People">
+        <constructor-arg index="0" type="int" value="123"/>
+        <constructor-arg index="1" value="装神弄鬼"/>
+        <constructor-arg index="2" value="23"/>
+    </bean>
+    <bean class="ssm.pojo.Teacher" id="tea">
+        <constructor-arg index="0" value="23"/>
+        <constructor-arg index="1" value="好老师"/>
+    </bean>
+    <bean id="stu" class="ssm.pojo.Student">
+        <property name="teacher" ref="tea"/>
+    </bean>
+    <bean id="poe" class="ssm.pojo.People">
+        <property name="age" value="23"/>
+        <property name="id" value="1"/>
+        <property name="name" value="通天塔"/>
+        <property name="sets">
+            <set>
+                <value>test01</value>
+                <value>test02</value>
+            </set>
+        </property>
+        <property name="student" ref="stu">
+        </property>
+    </bean>
+</beans>

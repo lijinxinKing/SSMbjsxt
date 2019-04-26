@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="a.m">
+    <select id="selByPas" resultType="ssm.pojo.Account" parameterType="ssm.pojo.Account">
+     select *from account where accno=#{accno} and password=#{password}
+    </select>
+    <!--根据账户 姓名查找-->
+    <select id="selByName" resultType="ssm.pojo.Account" parameterType="ssm.pojo.Account">
+      select *from account where accno=#{accno} and name=#{name}
+    </select>
+    <!--根据账户id 修改余额-->
+    <update id="updBalanceByAccno" parameterType="ssm.pojo.Account">
+        update account set balance=balance+#{balance} where accno=#{accno}
+    </update>
+
+    <select id="selaccount" parameterType="map" resultType="ssm.pojo.Account">
+        select * from account
+        <where>
+            <if test="accin!=null">
+                and accno=#{accin}
+            </if>
+            <if test="accou!=null">
+                and accno=#{accou}
+            </if>
+        </where>
+    </select>
+    <select id="s" resultType="ssm.pojo.Account" >
+        select <include refid="mysql"/> from account
+    </select>
+    <sql id="mysql">
+        id,accin,account,money
+    </sql>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--包名 实现类的 全路径
+id是方法名
+parameterType 定义参数类型
+resultType: 返回值类型
+如果方法返回值是list ,
+反射机制 读取 xml
+-->
+<mapper namespace="ssm.mapper.StudentMapper">
+    <select id="selByPage" parameterType="pageinfo" resultType="student">
+        select *from student
+        <where>
+            <if test="sname!=null and sname!=''">
+                <bind name="sname" value="'%'+sname+'%'"/>
+                and name like #{sname}
+            </if>
+            <if test="tname!=null and tname!=''">
+                <bind name="tame" value="'%'+tname+'%'"/>
+                and tid in (select id from teacher where name like #{tname})
+            </if>
+        </where>
+        limit #{pageStart},#{pageSize}
+    </select>
+    <select id="selCountByPageInfo" resultType="long"  parameterType="pageinfo">
+        select count(*) from student
+        <where>
+            <if test="sname!=null and sname!=''">
+                <bind name="sname" value="'%'+sname+'%'"/>
+                and name like #{sname}
+            </if>
+            <if test="tname!=null and tname!=''">
+                <bind name="tame" value="'%'+tname+'%'"/>
+                and tid in (select id from teacher where name like #{tname})
+            </if>
+        </where>
+        limit #{pageStart},#{pageSize}
+    </select>
+
+    <!-- 自动映射 association 关联一个对象-->
+    <resultMap id="stuMap" type="student">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="tid" column="tid"/>
+        <!--当需要装配一个对象时 使用-->
+        <association property="teacher" select="selbyid" column="tid"/>
+
+    </resultMap>
+    <select id="selById" resultType="student"  parameterType="int" resultMap="stuMap">
+        select *from student where id=#{0}
+    </select>
+    <select id="selbyid" resultType="teacher" parameterType="int">
+        select *from ssm.teacher where id=#{0}
+    </select>
+</mapper>
