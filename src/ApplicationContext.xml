@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns="http://www.springframework.org/schema/beans"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
-       " default-autowire="byName">
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-autowire="byName">
 
     <!--加载属性文件-->
     <context:property-placeholder location="classpath:db.properties"/>
-    <context:component-scan base-package="test.service.impl"/>
+    <context:component-scan base-package="menu.service.impl"/>
 
-    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
         <property name="driverClassName" value="${jdbc.driver}"/>
     </bean>
 
-    <bean id="factory123" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="datasource"/>
-        <property name="typeAliasesPackage" value="test.pojo"/>
+    <!-- SqlSessionFactory -->
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="menu.pojo"/>
+        <!--在哪个包下起别名-->
     </bean>
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
-        <property name="basePackage" value="test.mapper"/>
-        <property name="sqlSessionFactoryBeanName" value="factory123"/>
-    </bean>
-    <bean id="userService" class="test.service.impl.UserServiceImpl">
-        <property name="userMapper" ref="userMapper"/>
-    </bean>
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
-    <bean id="mybefore" class="test.advisor.MyAdvisor"/>
-    <bean id="myafter" class="test.advisor.MyAfter"/>
-    <!--Default Autowire-->
-
-    <bean id="people" class="ssm.pojo.People"/>
-    <bean id="teacher" class="ssm.pojo.Teacher" >
-        <property name="name" value="test" />
-        <property name="id" value="12"/>
-    </bean>
-    <bean id="user" class="test.pojo.User"/>
-    <bean id="txmanager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="datasource"/>
+    <!-- 扫描器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="menu.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="factory"/>
     </bean>
     <!--
-        <tx:advice transaction-manager="txmanager" id="myadvice">
+        <bean id="userService" class="test.service.impl.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    -->
+
+    <!-- 事务管理器 -->
+    <bean id="txManage" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 声明式事务 -->
+    <tx:advice id="txAdvice" transaction-manager="txManage">
         <tx:attributes>
-            <tx:method name="insert" />
+            <tx:method name="ins*"/>
+            <tx:method name="del*"/>
+            <tx:method name="upd*"/>
+            <tx:method name="*" read-only="true"/>
         </tx:attributes>
     </tx:advice>
+    <!-- 配置aop -->
     <aop:config>
-        <aop:pointcut expression="execution(* test.service.impl.UserServiceImpl.*.*(..))" id="mypoint"/>
-        <aop:advisor advice-ref="myadvice" pointcut-ref="mypoint"/>
-        <aop:advisor advice-ref="myafter" pointcut-ref="mypoint"/>
+        <aop:pointcut expression="execution(* menu.service.impl.*.*(..))" id="mypoint"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="mypoint"/>
     </aop:config>
-    -->
 
 </beans>

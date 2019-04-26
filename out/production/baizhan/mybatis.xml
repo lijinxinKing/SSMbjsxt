@@ -12,6 +12,7 @@
         <typeAlias type="ssm.pojo.Student" alias="student"/>
         <typeAlias type="ssm.pojo.Airplane" alias="airplane"/>
         <typeAlias type="ssm.pojo.Airport" alias="airport"/>
+        <typeAlias type="menu.pojo.Menu" alias="meun"/>
     </typeAliases>
     <environments default="default">
         <environment id="default">
@@ -25,6 +26,7 @@
         </environment>
     </environments>
     <mappers>
-        <package name="ssm.mapper"/>
+        <package name="menu.mapper"/>
+        <package name="test.mapper"/>
     </mappers>
 </configuration>

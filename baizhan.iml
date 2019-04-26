@@ -15,7 +15,7 @@
       <configuration>
         <fileset id="fileset" name="ApplicationContext" removed="false">
           <file>file://$MODULE_DIR$/src/ApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/aop.xml</file>
+          <file>file://$MODULE_DIR$/src/springmvc.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -37,7 +37,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://D:/jar/lib/cglib-2.2.2.jar!/" />
@@ -145,7 +145,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Spring-4.3.18.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Spring-4.3.18.RELEASE" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -157,18 +157,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spring-web-4.3.14.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.ideaLibSources/spring-web-4.3.14.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:4.3.18.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-web:4.3.18.RELEASE" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -188,10 +177,21 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/jar/asm-3.3.1.jar!/" />
+          <root url="jar://D:/jar/spring-webmvc-4.3.18.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ideaLibSources/spring-webmvc-4.3.18.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/jar/jackson-core-2.9.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

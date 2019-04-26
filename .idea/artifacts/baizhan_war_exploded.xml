@@ -27,6 +27,7 @@
           <element id="file-copy" path="D:/jar/aopalliance-1.0.jar" />
           <element id="file-copy" path="D:/jar/cglib-2.2.2.jar" />
           <element id="file-copy" path="D:/jar/aspectj-1.9.2.jar" />
+          <element id="file-copy" path="D:/jar/spring-webmvc-4.3.18.RELEASE.jar" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="baizhan/web/Web" />
